@@ -2,7 +2,7 @@
 1. 현재 폴더를 새로운 git 저장소로 초기화한다.
 git init
 
-1. 로컬 폴던를 원격 저장소와 연결
+1. 로컬 폴더를 원격 저장소와 연결
 git remote add orgin https://github.com/jamesjin7088/capstoneDesign.git
 
 2. 원격 커밋을 먼저 받아오기
