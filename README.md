@@ -14,5 +14,5 @@ git add .
 4. 커밋하기
 git commit -m "메세지"
 
-5. 원격 저장소에 push
+5. 원격 저장소에
 git push  origin main
