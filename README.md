@@ -16,3 +16,8 @@ git commit -m "메세지"
 
 5. 원격 저장소에
 git push  origin main
+
+# 프론트 실행 방법
+1. 'npm i' 로 먼저 설치
+2. 'npm run dev' 로 실행
+
