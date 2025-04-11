@@ -1,5 +1,6 @@
 # 프로젝트 설계
 ![Image](https://github.com/user-attachments/assets/9862e0fb-8d71-4204-9ee7-7a831e1cda44)
+사용되는 기술은 바뀔 수 있음
 
 
 # 깃허브 명령어
