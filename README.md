@@ -1,5 +1,5 @@
 # 프로젝트 설계
-![initial](https://github.com/user-attachments/files/19713849/Untitled.1.pdf)
+![Image](https://github.com/user-attachments/assets/9862e0fb-8d71-4204-9ee7-7a831e1cda44)
 
 
 # 깃허브 명령어
