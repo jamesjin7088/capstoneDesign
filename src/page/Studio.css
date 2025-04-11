@@ -29,66 +29,8 @@
   height: 0.5rem;
 }
 
-/* section2 */
-.Studio .section2 {
-  padding: 1.5rem;
-  background-color: rgb(31, 41, 55);
-  border-radius: 0.5rem;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 8px 10px -6px rgba(0, 0, 0, 0.1);
-}
-
-.Studio .section2 div {
-  text-align: center;
-  padding: 2rem;
-  border-color: rgb(75, 85, 99);
-  border-style: dashed;
-  border-width: 2px;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition-property: color, background-color, border-color,
-    text-decoration-color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-.Studio .section2 div:hover {
-  border-color: rgb(192, 132, 252);
-}
-
-.Studio .section2 div > input {
-  display: none;
-}
-
-.Studio .section2 div > label {
-  cursor: pointer;
-}
-
-.Studio .section2 div > label > svg {
-  color: rgb(156, 163, 175);
-  width: 3rem;
-  height: 3rem;
-  margin-bottom: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-  vertical-align: middle;
-}
-
-.Studio .section2 .p1 {
-  color: rgb(201, 213, 219);
-  margin-bottom: 0.5rem;
-  margin: 0;
-}
-
-.Studio .section2 .p2 {
-  color: rgb(156, 163, 175);
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
 /* section3 */
-
+/* 
 .Studio .section3 {
   justify-content: space-between;
   display: flex;
@@ -120,4 +62,4 @@
 
 .Studio .section3 button span {
   margin-left: 0.5rem;
-}
+} */

@@ -1,0 +1,276 @@
+/* 이미지 업로드 전 */
+
+.notUploaded .section1 {
+  padding: 1.5rem;
+  background-color: rgb(31, 41, 55);
+  border-radius: 0.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+.notUploaded .section1 div {
+  text-align: center;
+  padding: 2rem;
+  border-color: rgb(75, 85, 99);
+  border-style: dashed;
+  border-width: 2px;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.notUploaded .section1 div:hover {
+  border-color: rgb(192, 132, 252);
+}
+
+.notUploaded .section1 div > input {
+  display: none;
+}
+
+.notUploaded .section1 div > label {
+  cursor: pointer;
+}
+
+.notUploaded .section1 div > label > svg {
+  color: rgb(156, 163, 175);
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  vertical-align: middle;
+}
+
+.notUploaded .section1 .p1 {
+  color: rgb(201, 213, 219);
+  margin-bottom: 0.5rem;
+  margin: 0;
+}
+
+.notUploaded .section1 .p2 {
+  color: rgb(156, 163, 175);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.notUploaded .section2 {
+  justify-content: space-between;
+  display: flex;
+  margin-top: 1.5rem;
+}
+
+.notUploaded .section2 > button {
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: rgb(255, 255, 255);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: rgb(55, 65, 81);
+  border-radius: 0.5rem;
+  align-items: center;
+  display: flex;
+  border: none;
+}
+
+.notUploaded .section2 > button > svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  display: block;
+  vertical-align: middle;
+}
+
+.notUploaded .section2 > button > span {
+  font-size: 16px;
+}
+
+/* 이미지 업로드 후 */
+
+.uploaded {
+  --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color),
+    0 8px 10px -6px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+
+  padding: 1.5rem;
+  background-color: rgb(31, 41, 55);
+  border-radius: 0.5rem;
+}
+
+.uploaded .section1 {
+  margin: 0;
+}
+
+.uploaded .section1 > div {
+  gap: 1.5rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: grid;
+}
+
+.uploaded .section1 .img {
+  object-fit: cover;
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  display: block;
+}
+
+.uploaded .section1 .imageFeature div:nth-child(1) {
+  padding: 1rem;
+  background-color: rgb(55, 65, 81);
+  border-radius: 0.5rem;
+}
+
+.uploaded .section1 .imageFeature div:nth-child(1) > div {
+  align-items: center;
+  display: flex;
+  margin-bottom: 0.5rem;
+  padding: 0;
+}
+
+.uploaded .section1 .imageFeature div:nth-child(1) > div > h3 {
+  font-weight: 600;
+  margin: 0;
+  font-size: inherit;
+}
+
+.uploaded .section1 .imageFeature div:nth-child(1) > ul {
+  color: rgb(209, 213, 219);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.uploaded .section1 .imageFeature div:nth-child(2) {
+  padding: 1rem;
+  background-color: rgb(55, 65, 81);
+  border-radius: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.uploaded .section1 .imageFeature div:nth-child(2) > div {
+  align-items: center;
+  display: flex;
+  margin-bottom: 0.5rem;
+  padding: 0;
+}
+
+.uploaded .section1 .imageFeature div:nth-child(2) > div > h3 {
+  font-weight: 600;
+  margin: 0;
+  font-size: inherit;
+}
+
+.uploaded .section1 .imageFeature div:nth-child(3) {
+  padding: 1rem;
+  background-color: rgb(55, 65, 81);
+  border-radius: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.uploaded .section1 .imageFeature div:nth-child(3) > div {
+  align-items: center;
+  display: flex;
+  margin-bottom: 0.5rem;
+  padding: 0;
+}
+
+.uploaded .section1 .imageFeature div:nth-child(3) > div > h3 {
+  font-weight: 600;
+  margin: 0;
+  font-size: inherit;
+}
+
+.uploaded .section1 .imageFeature div:nth-child(3) > p {
+  color: rgb(209, 213, 219);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  margin: 0;
+}
+
+.uploaded .section1 button {
+  margin-top: 1.5rem;
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  background-color: rgb(147, 51, 234);
+  border-radius: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  display: flex;
+  cursor: pointer;
+  border: none;
+  text-transform: none;
+  font-size: 100%;
+}
+
+.uploaded .section1 button:hover {
+  background-color: rgb(126, 34, 206);
+}
+
+.uploaded_button {
+  justify-content: space-between;
+  display: flex;
+  margin-top: 1.5rem;
+}
+
+.uploaded_button button:nth-child(1) {
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: rgb(55, 65, 81);
+  border-radius: 0.5rem;
+  align-items: center;
+  display: flex;
+  border: none;
+}
+
+.uploaded_button button:nth-child(1):hover {
+  background-color: rgb(77, 90, 113);
+}
+
+.uploaded_button button > svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  display: block;
+  vertical-align: middle;
+}
+
+.uploaded_button button > span {
+  font-size: 16px;
+}
+
+.uploaded_button button:nth-child(2) {
+  color: rgb(255, 255, 255);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: rgb(147, 51, 234);
+  border-radius: 0.5rem;
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+  border: none;
+}
+
+.uploaded_button button:nth-child(2):hover {
+  background-color: rgb(126, 34, 206);
+}

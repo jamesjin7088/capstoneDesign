@@ -77,10 +77,6 @@
   background-color: rgb(55, 65, 81);
 }
 
-.Header .button button:focus {
-  background-color: rgb(147 51 234);
-}
-
 .Header .button button > svg {
   width: 1.25rem;
   height: 1.25rem;
