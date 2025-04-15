@@ -311,26 +311,22 @@ async def main():
     if not object_names:
         print("No objects detected.")
         return
-    # object_palette와 background_palette가 정의되었는지 확인
-    if 'object_palette' in locals() and 'background_palette' in locals():
-        analysis_result = await analyze_scene(object_names, object_palette, background_palette)
-        if analysis_result and analysis_result != "Gemini API 호출에 실패했습니다.":
-            furniture, recommend_color, room = parse_furniture_and_room(analysis_result)
-            if furniture is not None and room is not None:
-                print(f'가구 : {furniture}\n추천 색깔: {recommend_color}\n방: {room}')
-                # OpenAI API를 사용하여 가구 합성
-                # openai_result = await open_ai_recommend_furniture(room, furniture) # 주석 처리 (필요시 해제)
-                # print(f'가구 합성 결과: {openai_result}') # 주석 처리 (필요시 해제)
-            else:
-                print(f"Could not parse analysis result: {analysis_result}")
+# object_palette와 background_palette가 정의되었는지 확인
+    analysis_result = await analyze_scene(object_names, object_palette, background_palette)
+    if analysis_result and analysis_result != "Gemini API 호출에 실패했습니다.":
+        furniture, recommend_color, room = parse_furniture_and_room(analysis_result)
+        if furniture is not None and room is not None:
+            print(f'가구 : {furniture}\n추천 색깔: {recommend_color}\n방: {room}')
+            # OpenAI API를 사용하여 가구 합성
+            #openai_result = await open_ai_recommend_furniture(room, furniture) # 주석 처리 (필요시 해제)
+            #print(f'가구 합성 결과: {openai_result}') # 주석 처리 (필요시 해제)
         else:
-            print(f"Scene analysis failed or returned an error: {analysis_result}")
+            print(f"Could not parse analysis result: {analysis_result}")
     else:
-        print("Color palettes could not be extracted, skipping scene analysis.")
+        print(f"Scene analysis failed or returned an error: {analysis_result}")
 
-
-if 'google_api' in locals():  # api키가 존재할 시 실행
+if 'google_api' in locals(): # api키가 존재할 시 실행
     print("Analyze Start")
     asyncio.run(main())
 else:
-    print("Google API key not found.")  # API 키 없을 시 메시지
+    print("Google API key not found.") # API 키 없을 시 메시지
