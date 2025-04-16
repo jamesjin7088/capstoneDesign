@@ -7,11 +7,15 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import pathlib
 import textwrap
+import os
+
+from dotenv import load_dotenv
+load_dotenv()
 
 import google.generativeai as genai
 
-google_api = "여기에 API키 입력"  # 여기에 실제 API 키를 입력
-genai.configure(api_key=google_api)
+google_api_key = os.getenv('GOOGLE_API_KEY')
+genai.configure(api_key=google_api_key)
 
 model = genai.GenerativeModel('gemini-2.5-pro-exp-03-25')
 
@@ -170,7 +174,7 @@ def parse_furniture_and_room(input_string):
 model = YOLO("yolo11m.pt")  # 사전 학습된 모델 사용
 
 # 방 사진 불러오기
-image_path = "PATH"  # 이미지 경로 설정 필요
+image_path = "/Users/jinsangjun/Desktop/Projects/capstoneDesign/backend/uploads/1744676374.jpeg"  # 이미지 경로 설정 필요
 image = cv2.imread(image_path)
 image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 

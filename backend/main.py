@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from detect.detect_colors import get_dominant_colors
-from detect.detect_colors import extract_colors
+from detect.detect_new import get_dominant_colors
+
 from ultralytics import YOLO
 
 from dotenv import load_dotenv
@@ -11,19 +11,15 @@ import os
 import time
 import cv2
 
-# import google.generativeai as genai
-#
-# google_api_key = os.getenv('GOOGLE_API_KEY')
-# genai.configure(api_key = google_api_key)
-#
-# model = genai.GenerativeModel('gemini-2.5-pro-exp-03-25')
-#
-# chat = model.start_chat()
+from openai import OpenAI
+client = OpenAI()
+
+
 
 app = FastAPI()
 
 origins = [
-    "http://127.0.0.1:8000/"
+    "http://localhost:5174"
 ]
 
 app.add_middleware(
@@ -34,10 +30,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-@app.get("/")
-def hello():
-    return {"message": "Hello World"}
-
+# 이미지 분석 API
 @app.post("/image")
 async def create_file(file: UploadFile):
     # 업로드된 파일 읽기
@@ -68,14 +61,13 @@ async def create_file(file: UploadFile):
     results = model(img)
 
     # 객체 검출 후 박스 정보 추출
-
     boxes = []
     object_names = []
-    # for result in results:
-    #     for box in result.boxes:
-    #         if box.conf[0] >= 0.4:
-    #             boxes.append(box)
-    #             object_names.append(result.names[int(box.cls[0])])
+    for result in results:
+        for box in result.boxes:
+            if box.conf[0] >= 0.4:
+                boxes.append(box)
+                object_names.append(result.names[int(box.cls[0])])
 
 
     dominant_colors = get_dominant_colors(img)
@@ -89,12 +81,62 @@ async def create_file(file: UploadFile):
             "saved_path": file_path,
             "dominant_colors": hex_colors,
             # "object_palette": object_palette,
-            # "background_palette": background_palette
+            # "background_palette": background_palette,
+            "object_names": object_names,
+        }
+
+
+# 이미지 변형 생성 API
+@app.post("/image/variation")
+async def create_image_variation(
+    file_path: str,  # 이미 저장된 이미지의 경로
+    prompt: str      # 사용자가 입력한 프롬프트
+):
+    # 생성된 이미지를 저장할 디렉토리 생성
+    GENERATED_DIR = os.path.abspath("generated_images")
+    os.makedirs(GENERATED_DIR, exist_ok=True)
+
+    try:
+        # 저장된 이미지 파일 열기
+        with open(file_path, "rb") as image_file:
+            response = client.images.create_edit(
+                image=image_file,
+                prompt=prompt,
+                n=1,                # 생성할 이미지 수
+                size="1024x1024",   # 이미지 크기
+                model="dall-e-2"    # DALL-E 2 모델 사용
+            )
+
+        # 생성된 이미지 URL에서 이미지 다운로드 및 저장
+        generated_image_url = response.data[0].url
+        
+        # 생성된 이미지의 파일명 생성 (시간 기반)
+        timestamp = int(time.time())
+        generated_filename = f"generated_{timestamp}.png"
+        generated_path = os.path.join(GENERATED_DIR, generated_filename)
+
+        # 생성된 이미지 URL에서 이미지 다운로드 및 저장
+        import requests
+        image_response = requests.get(generated_image_url)
+        if image_response.status_code == 200:
+            with open(generated_path, "wb") as f:
+                f.write(image_response.content)
+
+        return {
+            "status": "success",
+            "original_image": file_path,
+            "generated_image_path": generated_path,
+            "generated_image_url": generated_image_url,
+            "prompt_used": prompt
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
         }
 
 
 
 
-
-
+# 서버 실행 명령어
 # uvicorn main:app --reload
