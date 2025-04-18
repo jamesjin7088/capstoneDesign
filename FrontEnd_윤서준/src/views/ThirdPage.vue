@@ -2,18 +2,24 @@
   <div class="container">
     <div class="title">
         <h3 @click="goToMainPage" class="clickable_title">Neural Network</h3>
-      </div>
+    </div>
     <hr />
 
     <!-- 제목 및 진행 바 -->
-    <div class="header">
-      <h3>Image Analysis</h3>
-      <div class="progress_bar">
-        <div class="progress"></div>
+    <div class="bowl">
+      <div class="text">
+        <h2>2. 이미지 분석</h2>
+        <p>Step 2 of 4</p>
       </div>
-    </div>
+    
+        <!-- 진행 바 -->
+      <div class = "progress-container">
+        <div class="progress_bar">
+          <div class="progress"></div>
+        </div>
+      </div>  
 
-    <!--<div class="content_container"> -->
+      <!--<div class="content_container"> -->
       <div class="content">
         <!-- 이미지 업로드 영역 -->
         <div class="image_section">
@@ -28,19 +34,19 @@
           <div class="info_card">
             <h4>🪑 감지된 가구</h4>
             <ul>
-              <li>모던 소파</li>
-              <li>커피 테이블</li>
-              <li>플로어 램프</li>
-              <li>벽걸이 아트</li>
+              <!-- 백엔드 메세지 출력 -->
+              <li>
+                <p v-if="responseMessage">{{ responseMessage }}</p>
+              </li>
             </ul>
           </div>
 
           <div class="info_card">
             <h4>🎨 색상 팔레트</h4>
             <div class="color_palette">
-              <div class="color_circle" style="background: #dce4f2;"></div>
-              <div class="color_circle" style="background: #e8eff8;"></div>
-              <div class="color_circle" style="background: #baf4d4;"></div>
+              <div class="color_circle" :style="{ background: responseMessage_color1 }"></div>
+              <div class="color_circle" :style="{ background: responseMessage_color2 }"></div>
+              <div class="color_circle" :style="{ background: responseMessage_color3 }"></div>
             </div>
           </div>
 
@@ -52,11 +58,11 @@
       </div>
 
       <!-- 버튼 영역 -->
-      <div class="button_section">
+      <div class="bottom_buttons">
         <button @click="$router.push('/second')" class="prev_button">← Previous</button>
         <button @click="$router.push('/fourth')" class="next_button">Next →</button>
       </div>
-   
+    </div>
   </div>
 </template>
 
@@ -66,6 +72,10 @@ export default {
   data() {
     return {
       uploadedImage: null,
+      responseMessage: '', // 서버 응답 메세지
+      responseMessage_color1: '',
+      responseMessage_color2: '',
+      responseMessage_color3: '',
     };
   },
 
@@ -74,6 +84,24 @@ export default {
     const savedImage = localStorage.getItem('uploadedImage');
     if (savedImage) {
       this.uploadedImage = savedImage;
+    }
+    // 서버 메세지 불러오기
+    const message = localStorage.getItem('responseMessage');
+    if (message) {
+      this.responseMessage = message;
+    }
+    // 색상값 가져오기
+    const color_1 = localStorage.getItem('responseMessage_color1');
+    if (color_1) {
+      this.responseMessage_color1 = color_1 || '#ffffff';
+    }
+    const color_2 = localStorage.getItem('responseMessage_color2');
+    if (color_2) {
+      this.responseMessage_color2 = color_2 || '#ffffff';
+    }
+    const color_3 = localStorage.getItem('responseMessage_color3');
+    if (color_3) {
+      this.responseMessage_color3 = color_3 || '#ffffff';
     }
   },
   
@@ -114,25 +142,37 @@ export default {
   color: #8A2BE2;
 }
 
-.header {
+
+/* 컨테이너 */
+.bowl {
+  background-color: #0f172a;
+  color: white;
+  padding: 40px;
+  min-height: 100vh;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.text {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 }
 
 /* 진행 바 */
+.progress-container {
+    margin-top: 10px;
+    width: 100%;
+  }
 .progress_bar {
-  width: 60%;
+  background: #2c3e50;
   height: 5px;
-  background: #485874;
   border-radius: 5px;
-  margin-top: 5px;
+  overflow: hidden;
 }
-
 .progress {
-  width: 50%;
+  width: 25%;
   height: 100%;
-  background: #8A2BE2;
+  background: #6A0DAD;
   border-radius: 5px;
 }
 
@@ -144,12 +184,17 @@ export default {
 }
 /* 콘텐츠 영역 스타일 */
 .content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-top: 30px;
+  border: 2px;
+  border-radius: 10px;
+  text-align: center;
+  padding: 20px;
   gap: 20px;
-  width: 80%;
-  margin: 40px auto 0; /* 가운데 정렬 + 위쪽 여백 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background: #27303f;
 }
 
 /* 이미지 섹션 */
@@ -193,44 +238,40 @@ export default {
   border-radius: 50%;
 }
 
-/* 버튼 영역 */
-.button_section {
+/* 하단 버튼 */
+.bottom_buttons {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  width: 80%;
-  margin: 40px auto 0; /* 가운데 정렬 + 위쪽 여백 */
+  justify-content: space-between;
+  margin-top: 30px;
 }
-
-.prev_button,
-.next_button {
-  padding: 10px 20px;
+/* 이전 버튼 */
+.prev_button { 
+  background: #475569;
+  color: white;
+  padding: 10px 18px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 600;
   transition: 0.3s;
 }
-
-.prev_button {
-  background: #9c9c9c;
-  color: black;
-}
-
 .prev_button:hover {
   background: #d3d3d3;
 }
-
+/* 다음 버튼 */
 .next_button {
+  padding: 10px 18px;
+  border: none;
   background: #6A0DAD;
   color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: 0.3s;
 }
-
 .next_button:hover {
   background: #8A2BE2;
 }
-
 
 /* 그 외 사항 */
 h3, h4, h5 {

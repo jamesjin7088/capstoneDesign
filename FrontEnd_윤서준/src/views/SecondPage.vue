@@ -12,10 +12,12 @@
       </div>
     
       <!-- 진행 바 -->
-      <div class="progress_bar">
-        <div class="progress"></div>
-      </div>
-
+      <div class = "progress-container">
+        <div class="progress_bar">
+          <div class="progress"></div>
+        </div>
+      </div>  
+        
       <!-- 업로드 박스 -->
       <div 
         class="upload_box" 
@@ -38,9 +40,9 @@
       </div>
 
       <!-- 이전 페이지 버튼 -->
-      <div class="button_container">
+      <div class="bottom_buttons">
         <button @click="$router.push('/')" class="prev_button">← 이전 페이지</button>
-        <button @click="$router.push('/third')" class="next_button">다음 페이지 -></button>
+        <button @click="handleNextClick" class="next_button">다음 페이지 -></button>
       </div>
     </div>
   </div>
@@ -51,10 +53,18 @@
 export default {
   data() {
     return {
-      selectedFile: null,
+      selectedFile: null, // 하나의 선택된 파일
       image: null,
       uploadedFileName: null, // 파일 이름 확인
       isDragging: false, // 드래그 상태 추적
+
+      showRecommendedImages: false, // 추천 이미지 표시 여부
+      isImageUploaded: false, // 이미지 업로드 여부 체크
+      responseMessage: '',  // 서버에서 받은 응답 메시지를 저장할 변수
+      responseMessage_color1: '', // 서버에서 받은 색상 정보 저장
+      responseMessage_color2: '',
+      responseMessage_color3: '',
+      resultImageUrl: '', // 서버에서 받은 이미지 url
     };
   },
 
@@ -62,6 +72,11 @@ export default {
     // 메인 페이지로 이동
     goToMainPage() {
       this.$router.push('/');
+    },
+    // 이미지 전송 후 다음페이지 이동
+    async handleNextClick() {
+      await this.uploadImage(); // 업로드 완료될 때까지 기다림
+      this.$router.push('/third'); // 그 후에 이동
     },
     
     // 드롭창에 마우스 이동
@@ -100,7 +115,7 @@ export default {
           this.image = e.target.result;
 
           // base64 이미지 localStorage에 저장
-          // 다른 vue 폴더로 이미지 이동
+          // 서버에 이미지 전송
           localStorage.setItem('uploadedImage', this.image);
         };
         reader.readAsDataURL(file);
@@ -111,6 +126,61 @@ export default {
         this.image = null;
       }
     },
+
+    // 선택된 이미지 업로드
+    async uploadImage() {
+        if (this.selectedFile) {
+          const formData = new FormData();
+          formData.append('image', this.selectedFile);
+  
+          // 혼자 테스트 할 때 사용함
+          // 이미지 업로드 성공 시 "추천 이미지 보기" 버튼 활성화
+          // this.isImageUploaded = true;
+          
+          try {
+            // 'http://192.168.7.19:5000/upload'
+            // 'http://192.168.12.107:8000/image'
+            const response = await fetch('http://192.168.7.19:5000/upload', {
+                method: 'POST',
+                body: formData, // 그냥 이대로만!
+                // ❌ headers 생략해야 함!
+            });
+
+            if (!response.ok) {
+              const errorText = await response.text();
+              console.error('서버 응답 오류:', response.status, errorText);
+              return;
+            }
+
+            // 서버 url 받아오기
+            const data = await response.json();
+            this.resultImageUrl = data.result_image_url;
+            console.log(this.resultImageUrl)
+
+            
+            // 팀원과 같이 테스트 할 시
+            this.isImageUploaded = true; // 이미지 업로드 성공 시 상태 변경
+            // 서버 응답 처리 (예: 메시지 출력)
+            this.responseMessage = data.message;
+            this.responseMessage_color1 = data.color_1;
+            this.responseMessage_color2 = data.color_2;
+            this.responseMessage_color3 = data.color_3;
+            // Secondpage -> 다른 페이지 전송
+            localStorage.setItem('responseMessage', data.message);
+            localStorage.setItem('responseMessage_color1', data.color_1);
+            localStorage.setItem('responseMessage_color2', data.color_2);
+            localStorage.setItem('responseMessage_color3', data.color_3);
+
+  
+          } catch (error) {
+            console.error('업로드 실패:', error);
+            // 팀원과 같이 테스트 할 시
+            this.isImageUploaded = false; // 실패 시 상태 초기화
+          }
+        } else {
+          alert('이미지를 선택하세요!');
+        }
+      },
   }
 };
 </script>
@@ -141,35 +211,13 @@ export default {
   color: #8A2BE2;
 }
 
-
-body {
-  font-family: Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  width: 100vw;
-  margin: 0;
-  background: #121826;
-  color: #FFFFFF;
-}
-
 /* 컨테이너 */
 .bowl {
-  width: 100%;
-  height: 100%;
-  max-width: 100vw;
-  max-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: #121826;
-  border-bottom: 270px solid #121826;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  background-color: #0f172a;
   color: white;
+  padding: 40px;
+  min-height: 100vh;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .text {
@@ -179,13 +227,15 @@ body {
 }
 
 /* 진행 바 */
+.progress-container {
+    margin-top: 10px;
+    width: 100%;
+  }
 .progress_bar {
-  width: 65%;
+  background: #2c3e50;
   height: 5px;
-  background: #485874;
   border-radius: 5px;
-  position:relative;
-  margin-bottom: 20px;
+  overflow: hidden;
 }
 .progress {
   width: 25%;
@@ -196,8 +246,7 @@ body {
 
 /* 업로드 박스 */
 .upload_box {
-  width: 60%;
-  height: 50%;
+  margin-top: 30px;
   border: 2px dashed #696868;
   border-radius: 10px;
   text-align: center;
@@ -221,27 +270,23 @@ body {
   background: #2f2f46;
 }
 
-/* 버튼 컨테이너 */
-.button_container {
-  padding-top: 30px;
-  bottom: 20px;
-  left: 20px;
-
+/* 하단 버튼 */
+.bottom_buttons {
   display: flex;
   justify-content: space-between;
+  margin-top: 30px;
 }
 
 /* 이전 버튼 */
 .prev_button { 
-  padding: 10px 15px;
+  background: #475569;
+  color: white;
+  padding: 10px 18px;
   border: none;
-  background: #9c9c9c;
-  color: black;
+  border-radius: 6px;
   cursor: pointer;
-  border-radius: 5px;
-  font-weight: bold;
-  transition: 0.3s; 
-  margin-right: 560px; /* 오른쪽 간격 추가 */
+  font-weight: 600;
+  transition: 0.3s;
 }
 .prev_button:hover {
   background: #d3d3d3;
@@ -249,7 +294,7 @@ body {
 
 /* 다음 버튼 */
 .next_button {
-  padding: 10px 15px;
+  padding: 10px 18px;
   border: none;
   background: #6A0DAD;
   color: white;
