@@ -19,7 +19,8 @@ client = OpenAI()
 app = FastAPI()
 
 origins = [
-    "http://localhost:5174"
+    "http://localhost:5173",
+
 ]
 
 app.add_middleware(
@@ -29,6 +30,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+
 
 # 이미지 분석 API
 @app.post("/image")
@@ -86,9 +93,9 @@ async def create_file(file: UploadFile):
         }
 
 
-# 이미지 변형 생성 API
-@app.post("/image/variation")
-async def create_image_variation(
+# 이미지 생성 API
+@app.post("/image/edit")
+async def edit_image(
     file_path: str,  # 이미 저장된 이미지의 경로
     prompt: str      # 사용자가 입력한 프롬프트
 ):
@@ -109,7 +116,7 @@ async def create_image_variation(
 
         # 생성된 이미지 URL에서 이미지 다운로드 및 저장
         generated_image_url = response.data[0].url
-        
+
         # 생성된 이미지의 파일명 생성 (시간 기반)
         timestamp = int(time.time())
         generated_filename = f"generated_{timestamp}.png"
