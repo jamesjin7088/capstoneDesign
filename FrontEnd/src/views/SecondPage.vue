@@ -146,7 +146,7 @@ export default {
           try {
             // 'http://192.168.7.19:5000/upload'
             // 'http://192.168.12.107:8000/image'
-            const response = await fetch('http://192.168.10.10:5000/upload', {
+            const response = await fetch('http://192.168.1.34:5000/upload', {
                 method: 'POST',
                 body: formData, // 그냥 이대로만!
                 // ❌ headers 생략해야 함!

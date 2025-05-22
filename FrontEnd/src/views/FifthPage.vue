@@ -47,14 +47,13 @@
           </div>
 
           
-          <!-- 🔽 추가된 추천 이미지 목록 영역 -->
-          <p>추천 가구 리스트</p>
+          <!-- 생성된 추천 가구 이미지 출력 -->
           <div class="furniture-box">  
-            <div class="furniture-title">예시 사진</div>
+            <div class="furniture-title">AI 추천 가구 사진</div>
             <div class="image-list">
-              <div class="image-item" v-for="(img, index) in furnitureImages" :key="index">
-                <img :src="img" alt="Furniture Option" />
+              <div class="image-item" v-for="(index) in furnitureImages" :key="index">
                 <img v-if="responseMessage_created_image" :src="responseMessage_created_image" alt="Uploaded Room" class="uploaded_image" />
+                <!--<p>💡 방의 유형 : {{ responseMessage_created_image }}</p> -->
               </div>
             </div>
           </div>
@@ -88,11 +87,11 @@ export default {
 
       // 가구 이미지 예시 (로컬 혹은 URL 사용 가능)
       furnitureImages: [
-      'src/assets/furniture/chair/chair1.jpg',
-      'src/assets/furniture/chair/chair2.png',
-      'src/assets/furniture/chair/chair3.jpg',
-      'src/assets/furniture/chair/chair4.png',
-      'src/assets/furniture/desk/desk1.png',
+      ,
+      ,
+      ,
+      ,
+      ,
       ]
     };
   },
@@ -125,7 +124,7 @@ export default {
     if (RoomType) {
       this.responseMessage_room_type = RoomType;
     }
-    // 생성된 이미지
+    // 생성된 가구 이미지
     const created_image = localStorage.getItem('responseMessage_created_image');
     if (created_image) {
       this.responseMessage_created_image = created_image;
